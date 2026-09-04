@@ -81,7 +81,7 @@ export const QuoteDrawer = ({ isOpen, setIsOpen }: QuoteDrawerProps) => {
     return (
         <div className={`${styles.quoteWrapper} ${isOpen ? styles.wrapperOpen : ''}`}>
 
-            {!isOpen && showHint && (
+            {/*!isOpen && showHint && (
                 <div className={styles.quoteHint}>
                     <span className={styles.notifIcon}>!</span>
                     <button
@@ -93,6 +93,33 @@ export const QuoteDrawer = ({ isOpen, setIsOpen }: QuoteDrawerProps) => {
                     <p className={styles.hintTitle}>Need a roof quote?</p>
                     <p className={styles.hintSubtitle}>Best Pricing Available <br></br> Limited Time Offer!</p>
                     <div className={styles.hintArrow}></div>
+                </div>
+            )*/}
+            {!isOpen && showHint && (
+                <div className={styles.quoteHint}>
+                    {/* Pica pica — 14 partículas */}
+                    <span className={styles.pp1} />
+                    <span className={styles.pp2} />
+                    <span className={styles.pp3} />
+                    <span className={styles.pp4} />
+                    <span className={styles.pp5} />
+                    <span className={styles.pp6} />
+                    <span className={styles.pp7} />
+                    <span className={styles.pp8} />
+                    <span className={styles.pp9} />
+                    <span className={styles.pp10} />
+                    <span className={styles.pp11} />
+                    <span className={styles.pp12} />
+                    <span className={styles.pp13} />
+                    <span className={styles.pp14} />
+
+                    <button className={styles.closeHint} onClick={(e) => { e.stopPropagation(); setShowHint(false); }}>×</button>
+                    <div className={styles.hintInner}>
+                        <span className={styles.hintTag}>🎉 Limited time offer</span>
+                        <p className={styles.hintTitle}>LABOR DAY SPECIAL</p>
+                        <p className={styles.hintSubtitle}>Best pricing of the season!</p>
+                    </div>
+                    <div className={styles.hintArrow} />
                 </div>
             )}
 

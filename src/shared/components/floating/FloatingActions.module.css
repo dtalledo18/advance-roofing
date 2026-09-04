@@ -215,20 +215,21 @@
     right: 0;
 }
 
-/* --- Eliminamos la animación floatingHint original --- */
-
+/* ── HINT — basado en tu CSS original, solo mejoras visuales ─── */
 .quoteHint {
     position: absolute;
-    left: -315px;
-    top: 45%;
-    transform: translateY(-50%); /* Ahora la mantenemos quieta */
+    left: -365px;           /* tu valor original */
+    top: 45%;               /* tu valor original */
+    transform: translateY(-50%);
     background: white;
-    padding: 20px 25px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra más dramática */
-    width: 250px;
+    padding: 20px 25px;     /* tu valor original */
+    border-radius: 8px;     /* tu valor original */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 300px;           /* tu valor original */
     z-index: 10002;
+    border-left: 4px solid #f7d000;  /* único añadido estructural */
 }
+
 
 /* --- 🔥 ESTILOS Y ANIMACIÓN DEL ÍCONO NOTIF (PALPITANTE) --- */
 .notifIcon {
@@ -603,4 +604,308 @@
 .contactVisible {
     transform: translateY(0);
     transition: transform 0.5s ease;
+}
+
+/* Serpentinas — pseudo elementos, no afectan el layout */
+.quoteHint::before {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #f7d000;
+    border-radius: 1px;
+    top: 10px;
+    right: 18px;
+    transform: rotate(25deg);
+    animation: confettiFall 3s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+.quoteHint::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #00589e;
+    border-radius: 1px;
+    top: 18px;
+    right: 36px;
+    transform: rotate(-15deg);
+    animation: confettiFall 3s ease-in-out infinite 0.7s;
+    opacity: 0.7;
+}
+
+@keyframes confettiFall {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 0.8; }
+    50%  { transform: translateY(5px) rotate(180deg); opacity: 0.5; }
+    100% { transform: translateY(0) rotate(360deg); opacity: 0.8; }
+}
+
+/* Tag */
+.hintTag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff8e1;
+    color: #b45309;
+    font-size: 17px;        /* más grande que antes */
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #fbbf24;
+    margin-bottom: 10px;
+}
+
+.hintInner {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Título */
+.hintTitle {
+    color: #00589e;
+    font-size: 20px;
+    font-weight: 900;
+    margin: 0 0 6px;
+    line-height: 1.15;
+    animation: none;
+    display: block;
+    text-align: center;
+}
+
+/* Botón cerrar — tu posición original era top-left */
+.closeHint {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    background: none;
+    border: none;
+    color: #919191;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.closeHint:hover { color: #4a5568; }
+
+/* Piquito — tu valor original apuntando a la derecha */
+.hintArrow {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid white;
+}
+
+.notifIcon { display: none !important; }
+
+@keyframes pulseHeartbeat {}
+@keyframes textAttention  {}
+
+@media (max-width: 768px) {
+    .quoteHint { display: none; }
+}
+
+
+/* ── PICA PICA — partículas cayendo desde arriba ─────────────── */
+
+/* Contenedor posicionado sobre el hint */
+.quoteHint {
+    overflow: visible; /* ← importante para que salgan del borde */
+}
+
+/* Cada partícula es un pseudo-elemento en spans generados,
+   pero como no podemos agregar múltiples ::before/::after con CSS puro,
+   usamos el ::before y ::after del hint más elementos .confetti-* en el JSX */
+
+/* Partícula izquierda — amarilla */
+.quoteHint::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #f7d000;
+    border-radius: 2px;
+    top: -20px;
+    left: 20px;
+    animation: picaPicaLeft 3s ease-in infinite;
+    transform-origin: center;
+}
+
+/* Partícula derecha — azul */
+.quoteHint::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00589e;
+    border-radius: 2px;
+    top: -20px;
+    right: 20px;
+    animation: picaPicaRight 3s ease-in infinite 0.4s;
+    transform-origin: center;
+}
+
+@keyframes picaPicaLeft {
+    0%   { top: -20px; left: 20px;  opacity: 1;   transform: rotate(0deg)   scaleX(1);  }
+    25%  { left: 10px;               opacity: 0.9; transform: rotate(90deg)  scaleX(-1); }
+    50%  { left: 25px;               opacity: 0.7; transform: rotate(180deg) scaleX(1);  }
+    75%  { left: 8px;                opacity: 0.4; transform: rotate(270deg) scaleX(-1); }
+    100% { top: 110%;  left: 15px;  opacity: 0;   transform: rotate(360deg) scaleX(1);  }
+}
+
+@keyframes picaPicaRight {
+    0%   { top: -20px; right: 20px; opacity: 1;   transform: rotate(0deg)   scaleX(1);  }
+    25%  { right: 10px;              opacity: 0.9; transform: rotate(-90deg) scaleX(-1); }
+    50%  { right: 30px;              opacity: 0.7; transform: rotate(-180deg) scaleX(1); }
+    75%  { right: 12px;              opacity: 0.4; transform: rotate(-270deg) scaleX(-1); }
+    100% { top: 110%; right: 18px;  opacity: 0;   transform: rotate(-360deg) scaleX(1); }
+}
+
+/* Base compartida */
+/* ── PICA PICA AGRESIVA ───────────────────────────────────── */
+.pp1, .pp2, .pp3, .pp4, .pp5, .pp6, .pp7,
+.pp8, .pp9, .pp10, .pp11, .pp12, .pp13, .pp14 {
+    position: absolute;
+    border-radius: 2px;
+    top: -18px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ── IZQUIERDA ─────────────────────────────────────────────── */
+.pp1  { width:9px;  height:9px;  background:#f7d000; left:8px;  animation: pL1 2.4s ease-in infinite 0s;   }
+.pp2  { width:6px;  height:6px;  background:#00589e; left:22px; animation: pL2 2.8s ease-in infinite 0.3s; }
+.pp3  { width:8px;  height:5px;  background:#ff6b6b; left:38px; animation: pL3 2.2s ease-in infinite 0.7s; }
+.pp4  { width:5px;  height:9px;  background:#51cf66; left:12px; animation: pL4 3s   ease-in infinite 1s;   }
+.pp5  { width:7px;  height:7px;  background:#f7d000; left:50px; animation: pL5 2.6s ease-in infinite 1.4s; }
+.pp6  { width:6px;  height:4px;  background:#cc5de8; left:28px; animation: pL6 2.9s ease-in infinite 0.5s; }
+.pp7  { width:10px; height:6px;  background:#ff922b; left:42px; animation: pL7 2.3s ease-in infinite 1.8s; }
+
+/* ── DERECHA ───────────────────────────────────────────────── */
+.pp8  { width:8px;  height:8px;  background:#f7d000; right:8px;  animation: pR1 2.5s ease-in infinite 0.2s; }
+.pp9  { width:6px;  height:6px;  background:#00589e; right:24px; animation: pR2 2.7s ease-in infinite 0.6s; }
+.pp10 { width:9px;  height:5px;  background:#ff6b6b; right:40px; animation: pR3 2.3s ease-in infinite 1.1s; }
+.pp11 { width:5px;  height:9px;  background:#51cf66; right:14px; animation: pR4 3.1s ease-in infinite 0.9s; }
+.pp12 { width:7px;  height:7px;  background:#f7d000; right:55px; animation: pR5 2.6s ease-in infinite 1.5s; }
+.pp13 { width:6px;  height:4px;  background:#cc5de8; right:30px; animation: pR6 2.8s ease-in infinite 0.4s; }
+.pp14 { width:10px; height:6px;  background:#ff922b; right:46px; animation: pR7 2.4s ease-in infinite 1.9s; }
+
+/* ── KEYFRAMES IZQUIERDA — zigzag agresivo hacia afuera ────── */
+@keyframes pL1 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    8%   {            opacity:1;                                                 }
+    30%  {            opacity:0.9; transform:rotate(140deg)  translateX(-18px); }
+    55%  {            opacity:0.7; transform:rotate(260deg)  translateX(8px);   }
+    80%  {            opacity:0.3; transform:rotate(380deg)  translateX(-12px); }
+    100% { top:115%;  opacity:0;   transform:rotate(480deg)  translateX(5px);   }
+}
+@keyframes pL2 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    8%   {            opacity:1;                                                 }
+    25%  {            opacity:0.9; transform:rotate(-120deg) translateX(-22px); }
+    50%  {            opacity:0.7; transform:rotate(-240deg) translateX(10px);  }
+    75%  {            opacity:0.3; transform:rotate(-360deg) translateX(-8px);  }
+    100% { top:115%;  opacity:0;   transform:rotate(-450deg) translateX(4px);   }
+}
+@keyframes pL3 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    10%  {            opacity:1;                                                 }
+    35%  {            opacity:0.9; transform:rotate(200deg)  translateX(-25px); }
+    65%  {            opacity:0.6; transform:rotate(320deg)  translateX(12px);  }
+    100% { top:115%;  opacity:0;   transform:rotate(500deg)  translateX(-6px);  }
+}
+@keyframes pL4 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    8%   {            opacity:1;                                                 }
+    40%  {            opacity:0.8; transform:rotate(-160deg) translateX(-20px); }
+    70%  {            opacity:0.5; transform:rotate(-300deg) translateX(15px);  }
+    100% { top:115%;  opacity:0;   transform:rotate(-460deg) translateX(-8px);  }
+}
+@keyframes pL5 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    10%  {            opacity:1;                                                 }
+    30%  {            opacity:0.9; transform:rotate(180deg)  translateX(-16px); }
+    60%  {            opacity:0.6; transform:rotate(300deg)  translateX(9px);   }
+    100% { top:115%;  opacity:0;   transform:rotate(420deg)  translateX(-4px);  }
+}
+@keyframes pL6 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    8%   {            opacity:1;                                                 }
+    45%  {            opacity:0.8; transform:rotate(-220deg) translateX(-28px); }
+    100% { top:115%;  opacity:0;   transform:rotate(-500deg) translateX(10px);  }
+}
+@keyframes pL7 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);   }
+    10%  {            opacity:1;                                                 }
+    35%  {            opacity:0.9; transform:rotate(250deg)  translateX(-14px); }
+    70%  {            opacity:0.4; transform:rotate(400deg)  translateX(7px);   }
+    100% { top:115%;  opacity:0;   transform:rotate(550deg)  translateX(-5px);  }
+}
+
+/* ── KEYFRAMES DERECHA — zigzag agresivo hacia afuera ─────── */
+@keyframes pR1 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);  }
+    8%   {            opacity:1;                                                }
+    30%  {            opacity:0.9; transform:rotate(-140deg) translateX(18px); }
+    55%  {            opacity:0.7; transform:rotate(-260deg) translateX(-8px); }
+    80%  {            opacity:0.3; transform:rotate(-380deg) translateX(12px); }
+    100% { top:115%;  opacity:0;   transform:rotate(-480deg) translateX(-5px); }
+}
+@keyframes pR2 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)  translateX(0px);  }
+    8%   {            opacity:1;                                               }
+    25%  {            opacity:0.9; transform:rotate(120deg) translateX(22px); }
+    50%  {            opacity:0.7; transform:rotate(240deg) translateX(-10px);}
+    75%  {            opacity:0.3; transform:rotate(360deg) translateX(8px);  }
+    100% { top:115%;  opacity:0;   transform:rotate(450deg) translateX(-4px); }
+}
+@keyframes pR3 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);  }
+    10%  {            opacity:1;                                                }
+    35%  {            opacity:0.9; transform:rotate(-200deg) translateX(25px); }
+    65%  {            opacity:0.6; transform:rotate(-320deg) translateX(-12px);}
+    100% { top:115%;  opacity:0;   transform:rotate(-500deg) translateX(6px);  }
+}
+@keyframes pR4 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)  translateX(0px);  }
+    8%   {            opacity:1;                                               }
+    40%  {            opacity:0.8; transform:rotate(160deg) translateX(20px); }
+    70%  {            opacity:0.5; transform:rotate(300deg) translateX(-15px);}
+    100% { top:115%;  opacity:0;   transform:rotate(460deg) translateX(8px);  }
+}
+@keyframes pR5 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);  }
+    10%  {            opacity:1;                                                }
+    30%  {            opacity:0.9; transform:rotate(-180deg) translateX(16px); }
+    60%  {            opacity:0.6; transform:rotate(-300deg) translateX(-9px); }
+    100% { top:115%;  opacity:0;   transform:rotate(-420deg) translateX(4px);  }
+}
+@keyframes pR6 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)  translateX(0px);  }
+    8%   {            opacity:1;                                               }
+    45%  {            opacity:0.8; transform:rotate(220deg) translateX(28px); }
+    100% { top:115%;  opacity:0;   transform:rotate(500deg) translateX(-10px);}
+}
+@keyframes pR7 {
+    0%   { top:-15px; opacity:0;   transform:rotate(0deg)   translateX(0px);  }
+    10%  {            opacity:1;                                                }
+    35%  {            opacity:0.9; transform:rotate(-250deg) translateX(14px); }
+    70%  {            opacity:0.4; transform:rotate(-400deg) translateX(-7px); }
+    100% { top:115%;  opacity:0;   transform:rotate(-550deg) translateX(5px);  }
+}
+
+@keyframes picaFall {
+    0%   { top: -15px; opacity: 0;   transform: rotate(0deg)   translateX(0);    }
+    10%  {              opacity: 1;                                                }
+    30%  {              opacity: 0.9; transform: rotate(120deg) translateX(6px);  }
+    60%  {              opacity: 0.6; transform: rotate(240deg) translateX(-4px); }
+    90%  {              opacity: 0.2; transform: rotate(340deg) translateX(3px);  }
+    100% { top: 105%;  opacity: 0;   transform: rotate(400deg) translateX(0);    }
 }
