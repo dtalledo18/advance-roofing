@@ -3,17 +3,28 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 
 const slides = [
-    { src: "/assets/images/shared/dialog_laborday.webp", link: "/contact-us", aspect: "portrait" },
-    // { src: "/assets/images/shared/dialog_hiring_1.webp", link: "/contact-us", aspect: "landscape" },
-    // { src: "/assets/images/shared/dialog_hiring_2.webp", link: "/contact-us", aspect: "landscape" },
+    {
+        src: "/assets/images/shared/dialog_laborday.webp",
+        aspect: "portrait",
+        cta: true,
+    },
+    // { src: "/assets/images/shared/dialog_hiring_1.webp", aspect: "landscape", cta: true },
+    // { src: "/assets/images/shared/dialog_hiring_2.webp", aspect: "landscape", cta: true },
 ];
 
 export const CareerCarousel = () => {
-    const dialogRef   = useRef<HTMLDialogElement>(null);
-    const timerRef    = useRef<ReturnType<typeof setInterval> | null>(null); // ← fix race condition
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const timerRef  = useRef<ReturnType<typeof setInterval> | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isMobile, setIsMobile]         = useState(false);
 
-    // ── Reinicia el timer cada vez que se cambia de slide manualmente ────────
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
+
     const startTimer = useCallback(() => {
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
@@ -23,7 +34,7 @@ export const CareerCarousel = () => {
 
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % slides.length);
-        startTimer(); // ← resetea el timer para evitar el doble-salto
+        startTimer();
     };
 
     const prevSlide = () => {
@@ -61,12 +72,12 @@ export const CareerCarousel = () => {
                 </svg>
             </button>
 
-            {/* Contenedor — más grande y adaptativo */}
+            {/* Contenedor adaptativo */}
             <div
                 className="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-500"
                 style={{
-                    width:     isPortrait ? "min(75vw, 520px)"  : "min(90vw, 820px)",
-                    aspectRatio: isPortrait ? "4/5"             : "4/3",
+                    width:       isPortrait ? "min(80vw, 600px)" : "min(90vw, 900px)",
+                    aspectRatio: isPortrait ? "4/5"              : "4/3",
                 }}
             >
                 {slides.map((slide, index) => (
@@ -84,7 +95,37 @@ export const CareerCarousel = () => {
                             quality={100}
                             className="object-cover"
                         />
-                        {/* Sin botón APPLY NOW para labor_day — solo lo muestras si el slide lo pide */}
+
+                        {/* CTA */}
+                        {slide.cta && (
+                            <a
+                                href={isMobile
+                                    ? "tel:8779456565"
+                                    : "https://www.advancedroofingteam.com/contact-us/"
+                                }
+                                className={`
+                                    absolute z-10 flex items-center
+                                    bg-[#f7d000] hover:bg-yellow-300 transition-colors
+                                    rounded-lg shadow-sm
+                                    ${isMobile
+                                    ? "top-7 right-7 gap-1 px-2.5 py-1.5"   /* mobile: pequeño */
+                                    : "top-12 right-10 gap-2 px-5 py-3"     /* desktop: grande */
+                                }
+                                `}
+                            >
+                                {isMobile && (
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 text-[#00589e] shrink-0">
+                                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                                    </svg>
+                                )}
+                                <span className={`
+                                    text-[#00589e] font-extrabold uppercase tracking-wide whitespace-nowrap
+                                    ${isMobile ? "text-[12px]" : "text-base"}
+                                `}>
+                                    {isMobile ? "Call Us Now" : "Contact Us Now"}
+                                </span>
+                            </a>
+                        )}
                     </div>
                 ))}
             </div>
