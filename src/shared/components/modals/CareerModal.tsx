@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 
 const slides = [
-    { src: "/assets/images/shared/dialog_labor_day.webp", link: "/contact-us", aspect: "portrait" },
+    { src: "/assets/images/shared/dialog_laborday.webp", link: "/contact-us", aspect: "portrait" },
     // { src: "/assets/images/shared/dialog_hiring_1.webp", link: "/contact-us", aspect: "landscape" },
     // { src: "/assets/images/shared/dialog_hiring_2.webp", link: "/contact-us", aspect: "landscape" },
 ];
