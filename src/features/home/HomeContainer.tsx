@@ -22,14 +22,16 @@ import {TopBannerAward} from "@/features/home/TopBannerAward/TopBannerAward";
 import SeniorDiscount from "@/features/home/SeniorDiscount/SeniorDiscount";
 import NiceJobBadge from "@/features/home/NiceJobBadge";
 import SolarPanel from "@/features/home/SolarPanel";
+import {CareerCarousel} from "@/shared/components/modals/CareerModal";
 
 export default function HomeContainer({ dbReviews }: { dbReviews: any[] }) {
     return (
         <main>
+                <CareerCarousel/>
             <VideoBanner showSubtitle={true}/>
             <StormAlert />
             <TopBannerAward/>
-                <NiceJobBadge/>
+            <NiceJobBadge/>
             <NowServing/>
             <Language/>
             <StatsBar/>
