@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const slides = [
     {
-        src: "/assets/images/shared/dialog_laborday.webp",
+        src: "/assets/images/shared/labor_day.webp",
         aspect: "portrait",
         cta: true,
     },

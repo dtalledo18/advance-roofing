@@ -118,6 +118,7 @@ export const QuoteDrawer = ({ isOpen, setIsOpen }: QuoteDrawerProps) => {
                         <span className={styles.hintTag}>🎉 Limited time offer</span>
                         <p className={styles.hintTitle}>LABOR DAY SPECIAL</p>
                         <p className={styles.hintSubtitle}>Best pricing of the season!</p>
+                        <p className={styles.hintExpiry}>Offer ends Friday, Sep 11th</p>
                     </div>
                     <div className={styles.hintArrow} />
                 </div>
