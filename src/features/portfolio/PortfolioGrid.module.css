@@ -238,7 +238,7 @@
 
 /* ── CTA BANNER ────────────────────────────────────────────── */
 .ctaBanner {
-    background: linear-gradient(135deg, #0b2545 0%, #00589e 100%);
+    background: #00589E;
     border-radius: 16px;
     padding: 48px 48px;
     display: flex;
