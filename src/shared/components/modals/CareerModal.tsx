@@ -7,9 +7,14 @@ const slides = [
         src: "/assets/images/shared/labor_day.webp",
         aspect: "portrait",
         cta: true,
+        ctaPosition: "top-right" as const,
     },
-    // { src: "/assets/images/shared/dialog_hiring_1.webp", aspect: "landscape", cta: true },
-    // { src: "/assets/images/shared/dialog_hiring_2.webp", aspect: "landscape", cta: true },
+    {
+        src: "/assets/images/shared/dialog_sales_rep.webp",
+        aspect: "portrait",
+        cta: true,
+        ctaPosition: "bottom-center" as const,
+    },
 ];
 
 export const CareerCarousel = () => {
@@ -99,30 +104,35 @@ export const CareerCarousel = () => {
                         {/* CTA */}
                         {slide.cta && (
                             <a
-                                href={isMobile
-                                    ? "tel:8779456565"
-                                    : "https://www.advancedroofingteam.com/contact-us/"
-                                }
+                                href={isMobile ? "tel:8779456565" : "https://www.advancedroofingteam.com/contact-us/"}
                                 className={`
                                     absolute z-10 flex items-center
                                     bg-[#f7d000] hover:bg-yellow-300 transition-colors
                                     rounded-lg shadow-sm
-                                    ${isMobile
-                                    ? "top-7 right-7 gap-1 px-2.5 py-1.5"   /* mobile: pequeño */
-                                    : "top-12 right-10 gap-2 px-5 py-3"     /* desktop: grande */
+                                    ${slide.ctaPosition === "bottom-center"
+                                    ? "bottom-8 left-1/2 -translate-x-1/2 gap-2 px-6 py-3"
+                                    : isMobile
+                                        ? "top-7 right-7 gap-1 px-2.5 py-1.5"
+                                        : "top-12 right-10 gap-2 px-5 py-3"
                                 }
                                 `}
                             >
-                                {isMobile && (
+                                {isMobile && slide.ctaPosition !== "bottom-center" && (
                                     <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 text-[#00589e] shrink-0">
                                         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                                     </svg>
                                 )}
                                 <span className={`
                                     text-[#00589e] font-extrabold uppercase tracking-wide whitespace-nowrap
-                                    ${isMobile ? "text-[12px]" : "text-base"}
+                                    ${slide.ctaPosition === "bottom-center"
+                                    ? "text-base"
+                                    : isMobile ? "text-[12px]" : "text-base"
+                                }
                                 `}>
-                                    {isMobile ? "Call Us Now" : "Contact Us Now"}
+                                    {isMobile && slide.ctaPosition !== "bottom-center"
+                                        ? "Call Us Now"
+                                        : "Contact Us Now"
+                                    }
                                 </span>
                             </a>
                         )}
