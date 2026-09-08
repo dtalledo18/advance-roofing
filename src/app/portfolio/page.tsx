@@ -4,6 +4,7 @@ import { PortfolioGrid} from "@/features/portfolio/Portfoliogrid";
 import { PROJECTS, getPortfolioStats } from '@/data/projects.data';
 import styles from '../../features/portfolio/portfolio.module.css';
 import {Footer} from "@/shared/components/layout/footer/Footer";
+import SharedBanner from "@/shared/components/SharedBanner/SharedBanner";
 
 export const metadata: Metadata = {
     title: 'Our Portfolio | Advanced Roofing Team Construction',
@@ -22,14 +23,12 @@ export default function PortfolioPage() {
         <main>
             {/* ── HERO ─────────────────────────────────────────────── */}
             <section className={styles.hero}>
-                <div className={styles.heroInner}>
-                    <span className={styles.heroLabel}>Advanced Roofing Team</span>
-                    <h1 className={styles.heroTitle}>Our Portfolio</h1>
-                    <p className={styles.heroSub}>
-                        Quality craftsmanship across Illinois, Wisconsin, Indiana &amp; Michigan.
-                        Every project backed by our workmanship guarantee.
-                    </p>
-                </div>
+                <SharedBanner
+                    title="Our Portfolio"
+                    isCityVisible={false}
+                    isIconVisible={true}
+                    backgroundImage={"/assets/images/features/roofing/banner-v3.webp"}
+                />
 
                 {/* Stats banner — reemplaza el mapa */}
                 <div className={styles.statsBar}>
