@@ -3,22 +3,9 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import styles from './OurProjects.module.css';
 import { Clock, Home } from 'lucide-react';
-import Link from "next/link";
-import { ScrollReveal } from "@/shared/animations/ScrollReveal";
-
-const initialProjects = [
-    { id: 1, title: 'Industrial Logistics Hub',      type: 'Commercial Flat Roof',    size: '59,500 sq. ft.', time: '3 weeks', image: '/assets/images/projects/industrial-logistics.webp',                        system: 'Roofing Membrane + 5.2" Insulation' },
-    { id: 2, title: 'Modern Family Estate',          type: 'Residential Shingle Roof', size: '3,450 sq. ft.',  time: '3 weeks', image: '/assets/images/projects/modern-family.webp',                              system: 'Timberline GAF shingle' },
-    { id: 3, title: 'Suburban Heritage Home',        type: 'Residential Shingle Roof', size: '4,222 sq. ft.',  time: '3 weeks', image: '/assets/images/projects/suburban-heritage-alt.webp',                      system: 'Timberline GAF shingle' },
-    { id: 4, title: 'Classic Residential Villa',     type: 'Residential Shingle Roof', size: '1,602 sq. ft.',  time: '2 weeks', image: '/assets/images/projects/residential-villa.webp',                          system: 'Timberline GAF shingle' },
-    { id: 5, title: 'Classic Suburban Ranch',        type: 'Residential Shingle Roof', size: '2,800 sq. ft.',  time: '2 weeks', image: '/assets/images/projects/classic-suburban-ranch.jpg',        system: 'Timberline GAF shingle' },
-    { id: 6, title: 'Historic Village Home',         type: 'Residential Shingle Roof', size: '2,150 sq. ft.',  time: '2 weeks', image: '/assets/images/projects/historic-village-home.jpg',        system: 'Timberline GAF shingle' },
-    { id: 7, title: 'Contemporary Brick Residence',  type: 'Residential Shingle Roof', size: '3,200 sq. ft.',  time: '3 weeks', image: '/assets/images/projects/contemporary-brick-residence.jpg',        system: 'Timberline GAF shingle' },
-    { id: 8, title: 'Suburban Brick & Siding Home',  type: 'Residential Shingle Roof', size: '3,100 sq. ft.',  time: '3 weeks', image: '/assets/images/projects/down-net_http20260727-436-soyo5u.jpg',     system: 'Timberline GAF shingle' },
-    { id: 9, title: 'Gated Estate Property',         type: 'Residential Shingle Roof', size: '3,600 sq. ft.',  time: '3 weeks', image: '/assets/images/projects/down-net_http20260727-164-svejaf.jpg',     system: 'Timberline GAF shingle' },
-    { id: 10, title: 'Dark Grey Colonial Home',      type: 'Residential Shingle Roof', size: '4,500 sq. ft.',  time: '3 weeks', image: '/assets/images/projects/down-net_http20260727-116-k83ngw.jpg',    system: 'Timberline GAF shingle' },
-    { id: 11, title: 'Light Blue Modern Residence',  type: 'Residential Shingle Roof', size: '2,900 sq. ft.',  time: '2 weeks', image: '/assets/images/projects/9c5b654f-da21-4e25-8c74-efcae06db418.jpg',     system: 'Timberline GAF shingle' },
-];
+import Link from 'next/link';
+import { ScrollReveal } from '@/shared/animations/ScrollReveal';
+import { getAllProjects } from '@/data/projects.data'; // ← importa de la fuente única
 
 const getVisible = () => {
     if (typeof window === 'undefined') return 4;
@@ -30,35 +17,36 @@ const getVisible = () => {
 const GAP = 20;
 
 const OurProjects = () => {
-    // Inicializamos con el orden normal para que el SSR coincida en el primer render
-    const [projects, setProjects] = useState(initialProjects);
+    const allProjects = getAllProjects();
+
+    const [projects, setProjects] = useState(allProjects);
     const [isMounted, setIsMounted] = useState(false);
 
-    const [baseIndex, setBaseIndex]         = useState(0);
-    const [offset, setOffset]               = useState(0);
+    const [baseIndex, setBaseIndex]             = useState(0);
+    const [offset, setOffset]                   = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [isDragging, setIsDragging]       = useState(false);
-    const [dragStart, setDragStart]         = useState(0);
-    const [dragDelta, setDragDelta]         = useState(0);
-    const [activeId, setActiveId]           = useState(initialProjects[0].id);
-    const [hoveredIcon, setHoveredIcon]     = useState<{ projectId: number; iconType: string } | null>(null);
-    const [cardWidth, setCardWidth]         = useState(0);
-    const [visible, setVisible]             = useState(4);
+    const [isDragging, setIsDragging]           = useState(false);
+    const [dragStart, setDragStart]             = useState(0);
+    const [dragDelta, setDragDelta]             = useState(0);
+    const [activeId, setActiveId]               = useState(allProjects[0].id);
+    const [hoveredIcon, setHoveredIcon]         = useState<{ projectId: number; iconType: string } | null>(null);
+    const [cardWidth, setCardWidth]             = useState(0);
+    const [visible, setVisible]                 = useState(4);
 
-    const viewportRef  = useRef<HTMLDivElement>(null);
-    const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+    const viewportRef = useRef<HTMLDivElement>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    // Randomizar solo después de montar en el cliente para evitar errores de hidratación
     useEffect(() => {
         setIsMounted(true);
-        setProjects([...initialProjects].sort(() => Math.random() - 0.5));
+        setProjects([...allProjects].sort(() => Math.random() - 0.5));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const measureCard = useCallback(() => {
         if (!viewportRef.current) return;
-        const vis  = getVisible();
+        const vis   = getVisible();
         const total = viewportRef.current.offsetWidth;
-        const w = (total - GAP * (vis - 1)) / vis;
+        const w     = (total - GAP * (vis - 1)) / vis;
         setCardWidth(w);
         setVisible(vis);
     }, []);
@@ -72,9 +60,7 @@ const OurProjects = () => {
     const slideNext = useCallback(() => {
         if (isTransitioning || cardWidth === 0) return;
         setIsTransitioning(true);
-
         setOffset(-(cardWidth + GAP));
-
         setTimeout(() => {
             setBaseIndex(prev => (prev + 1) % projects.length);
             setOffset(0);
@@ -88,16 +74,12 @@ const OurProjects = () => {
     }, [slideNext]);
 
     useEffect(() => {
-        if (isMounted) {
-            startInterval();
-        }
+        if (isMounted) startInterval();
         return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
     }, [isMounted, startInterval]);
 
     useEffect(() => {
-        if (projects.length > 0) {
-            setActiveId(projects[baseIndex].id);
-        }
+        if (projects.length > 0) setActiveId(projects[baseIndex].id);
     }, [baseIndex, projects]);
 
     const visibleProjects = Array.from({ length: visible + 1 }, (_, i) =>
@@ -157,9 +139,7 @@ const OurProjects = () => {
                         <div
                             key={`${project.id}-${i}`}
                             className={`${styles.card} ${activeId === project.id ? styles.active : ''}`}
-                            style={{
-                                flex: cardWidth > 0 ? `0 0 ${cardWidth}px` : undefined,
-                            }}
+                            style={{ flex: cardWidth > 0 ? `0 0 ${cardWidth}px` : undefined }}
                             onMouseEnter={() => {
                                 setActiveId(project.id);
                                 if (intervalRef.current) clearInterval(intervalRef.current);
@@ -238,8 +218,9 @@ const OurProjects = () => {
                 ))}
             </div>
 
-            <Link href="/our-services" className={styles.servicesLink}>
-                <button className={styles.moreBtn}>View All Services</button>
+            {/* ← Ahora apunta a /portfolio */}
+            <Link href="/portfolio" className={styles.servicesLink}>
+                <button className={styles.moreBtn}>View Full Portfolio</button>
             </Link>
         </ScrollReveal>
     );
