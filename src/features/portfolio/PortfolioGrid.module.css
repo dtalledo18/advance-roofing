@@ -239,7 +239,6 @@
 /* ── CTA BANNER ────────────────────────────────────────────── */
 .ctaBanner {
     background: #00589E;
-    border-radius: 16px;
     padding: 48px 48px;
     display: flex;
     align-items: center;
@@ -277,13 +276,12 @@
     align-items: center;
     background: #f7d000;
     color: #00589e;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     padding: 16px 36px;
     text-decoration: none;
-    border-radius: 6px;
     transition: background 0.2s ease, transform 0.2s ease;
     white-space: nowrap;
 }
